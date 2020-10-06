@@ -1,15 +1,18 @@
 FROM metrodatatech/mdtdb:12-full
 
 RUN sed -i 's/$/ 11/' /etc/apt/sources.list.d/pgdg.list
-ENV POSTGIS_MAJOR 2.5
-ENV POSTGIS_VERSION 2.5.1+dfsg-1
-
+ADD https://packages.groonga.org/debian/groonga-archive-keyring-latest-buster.deb /tmp/groonga-archive-keyring-latest-buster.deb
 RUN apt-get update \
     && apt-cache showpkg postgresql-11-postgis-$POSTGIS_MAJOR \
     && apt-get install -y --no-install-recommends \
         postgresql-11=11.9-0+deb10u1 \
-        postgresql-11-postgis-$POSTGIS_MAJOR=$POSTGIS_VERSION \
-        postgresql-11-postgis-$POSTGIS_MAJOR-scripts=$POSTGIS_VERSION \
+        postgresql-11-postgis-2.5 \
+        postgresql-11-postgis-2.5-scripts \
+        postgresql-12-postgis-2.5 \
+        postgresql-12-postgis-2.5-scripts \
+    && apt-get install -y -V /tmp/groonga-archive-keyring-latest-buster.deb \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends postgresql-11-pgroonga \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PGBINOLD /usr/lib/postgresql/11/bin
