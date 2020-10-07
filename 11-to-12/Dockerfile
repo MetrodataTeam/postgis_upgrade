@@ -8,8 +8,9 @@ RUN apt-get update \
         postgresql-11=11.9-0+deb10u1 \
         postgresql-11-postgis-2.5 \
         postgresql-11-postgis-2.5-scripts \
-        postgresql-12-postgis-2.5 \
-        postgresql-12-postgis-2.5-scripts \
+    && cp /usr/lib/postgresql/12/lib/postgis-3.so /usr/lib/postgresql/12/lib/postgis-2.5.so \
+    && cp /usr/lib/postgresql/12/lib/postgis_raster-3.so /usr/lib/postgresql/12/lib/postgis_raster-2.5.so \
+    && cp /usr/lib/postgresql/12/lib/postgis_topology-3.so /usr/lib/postgresql/12/lib/postgis_topology-2.5.so \
     && apt-get install -y -V /tmp/groonga-archive-keyring-latest-buster.deb \
     && apt-get update \
     && apt-get install -y --no-install-recommends postgresql-11-pgroonga \
